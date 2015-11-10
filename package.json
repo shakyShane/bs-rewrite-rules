@@ -1,0 +1,38 @@
+{
+  "name": "bs-rewrite-rules",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha tests"
+  },
+  "keywords": [
+    "browser sync plugin",
+    "response modifier"
+  ],
+  "author": "Shane Osbourne",
+  "license": "MIT",
+  "browser-sync:ui": {
+    "hooks": {
+      "markup": "ui/rewrite.html",
+      "templates": [
+        "ui/rewrite.directive.html",
+        "ui/rewrite.list.html",
+        "ui/rewrite.state-button.html"
+      ],
+      "client:js": [
+        "ui/client.filters.js",
+        "ui/client.js",
+        "ui/client.item.js"
+      ]
+    }
+  },
+  "devDependencies": {
+    "browser-sync": "^2.8.2",
+    "chai": "^3.2.0",
+    "mocha": "^2.2.5"
+  },
+  "dependencies": {
+    "immutable": "^3.7.4"
+  }
+}
