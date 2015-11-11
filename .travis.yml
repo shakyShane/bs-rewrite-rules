@@ -1,0 +1,7 @@
+udo: false
+git:
+  depth: 2
+language: node_js
+node_js:
+  - node
+  - '0.10'

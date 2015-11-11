@@ -1,5 +1,4 @@
-var browserSync = require("/Users/shakyshane/code/browser-sync");
-var ui          = require("../../index");
+var browserSync = require("browser-sync");
 var assert      = require("chai").assert;
 var path        = require("path");
 var OPTPATH     = ['shakyshane', 'rewrite-rules', 'rules'];
@@ -8,7 +7,6 @@ var plugin      = path.resolve(__dirname, "../");
 function startWithRules (rules, cb) {
     browserSync.reset();
     var bs = browserSync.create();
-    bs.use(ui);
 
     bs.init({
         server: "test/fixtures",
