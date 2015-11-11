@@ -1,15 +1,13 @@
 var bs = require('browser-sync').create();
-
-//bs.use(require('./'));
+var mod = require('path').dirname(require.resolve('./'));
 
 bs.init({
-    server: 'tests/fixtures',
-    disableBrowserCache: true,
-    open: false,
-    plugins: [
+    proxy: 'http://www.bbc.co.uk',
+    plugins: [mod],
+    rewriteRules: [
         {
-            module: '/Users/shakyshane/code/bs-rewrite-rules',
-            enabled: true
+            match: 'shane',
+            replace: 'kittie'
         }
     ]
 });
