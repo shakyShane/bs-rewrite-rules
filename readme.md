@@ -22,7 +22,7 @@ bs.init({
 Now access the Plugins section of the UI (address given in the console)
 & you'll be presented with: 
 
-<!-- img -->
+![ui](http://s22.postimg.org/i3yi07zwx/Screen_Shot_2015_11_11_at_08_46_47.png)
 
 ### Works well with `serveStatic`
 
