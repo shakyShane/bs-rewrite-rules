@@ -19,25 +19,11 @@ module.exports["plugin"] = function (opts, bs) {
     opts       = opts       || {};
     opts.rules = opts.rules || [];
 
-    var bsRules = bs.getOption("rewriteRules");
-
-    if (bsRules === false) {
-        bs.setOption('rewriteRules', Immutable.List([]));
-    }
-
     opts.rules = bs.getOption("rewriteRules")
         .toJS()
         .map(utils.decorateTypes)
         .map(utils.decorateInputs)
         .map(utils.addId);
-
-    // Get original BS snippet
-    var builtin = bs.snippetMw.opts.rules
-        .filter(function (item) {
-            return item.id === 'bs-snippet';
-        });
-
-    bs.setRewriteRules(opts.rules.concat(builtin));
 
     var logger   = bs.getLogger(config.PLUGIN_NAME).info("Running...");
     var rulePath = config.OPT_PATH.concat('rules');
@@ -63,7 +49,6 @@ module.exports["plugin"] = function (opts, bs) {
                 return item.get('active');
             })
             .toJS()
-            .concat(builtin)
         )
     }
 
