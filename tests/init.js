@@ -39,8 +39,7 @@ describe("Rules given in Browsersync configuration", function() {
                 }
             );
 
-            assert.equal(bs.rewriteRules.length, 2);
-            assert.equal(bs.rewriteRules[1].id, "bs-snippet");
+            assert.equal(bs.options.get('rewriteRules').size, 1);
 
             assert.equal(rules.length, 1);
 

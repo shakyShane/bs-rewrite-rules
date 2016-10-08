@@ -19,22 +19,9 @@ function startWithRules (rules, cb) {
 
 describe("Adding rewrite rules", function() {
 
-    it("initial state is running, but with no rules", function(done) {
-
-        startWithRules(false, function (err, bs) {
-
-            var rules   = bs.ui.options.getIn(OPTPATH).toJS();
-
-            assert.equal(rules.length, 0);
-            assert.equal(bs.rewriteRules.length, 1);
-            assert.equal(bs.rewriteRules[0].id, "bs-snippet");
-
-            bs.cleanup(done);
-        });
-    });
     it("can add a string replacement", function (done) {
 
-        startWithRules(false, function (err, bs) {
+        startWithRules([], function (err, bs) {
 
             bs.ui.rewriteRules.addRule({
                 match: {
@@ -67,7 +54,7 @@ describe("Adding rewrite rules", function() {
     });
     it("can add a string with empty replace", function (done) {
 
-        startWithRules(false, function (err, bs) {
+        startWithRules([], function (err, bs) {
 
             bs.ui.rewriteRules.addRule({
                 match: {
@@ -100,7 +87,7 @@ describe("Adding rewrite rules", function() {
     });
     it("can restore rules that may be partially missing", function (done) {
 
-        startWithRules(false, function (err, bs) {
+        startWithRules([], function (err, bs) {
 
             bs.ui.rewriteRules.replaceRules([
                 {
