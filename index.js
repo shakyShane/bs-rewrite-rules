@@ -117,6 +117,15 @@ module.exports["plugin"] = function (opts, bs) {
                     return item.get('id') === data.id;
                 });
 
+                var dupes = rules.filter(function (item) {
+                    return item.get('matchInput') === data.match.value;
+                });
+
+                // Don't allow duplicates
+                if (dupes.size) {
+                    return rules;
+                }
+
                 var without = rules.filter(function (item) {
                     return item.get('id') !== data.id;
                 });

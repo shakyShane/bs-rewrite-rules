@@ -3,6 +3,9 @@
     var OPT_PATH    = ["shakyshane", "rewrite-rules"];
     var NS          = OPT_PATH.join(":");
     var PLUGIN_NAME = "Rewrite Rules";
+    var errorTypes  = {
+        DuplicateEntry: 'DuplicateEntry'
+    };
 
     angular
         .module("BrowserSync")
@@ -45,7 +48,32 @@
      */
     function rewriteRulesDirective($scope, Socket, Store, Clients) {
 
-        var ctrl    = this;
+        var ctrl     = this;
+        ctrl.errors  = [];
+        ctrl.exports = [];
+
+        ctrl.addError = function (incoming) {
+            var dupes = ctrl.errors.filter(function (error) {
+                return error.type === incoming.type;
+            });
+            if (dupes.length) return;
+            ctrl.errors.push(incoming);
+        };
+
+        $scope.$watch(function () {
+            return ctrl.inputs.match.value
+        }, function (value) {
+            if (ctrl.state.editing) return;
+            var dupes = ctrl.rules.filter(function (rule) {
+                return rule.matchInput === value;
+            });
+            if (dupes.length) {
+                ctrl.showErrors = true;
+                ctrl.addError({type: errorTypes.DuplicateEntry, message: 'Duplicate Entry'});
+            } else {
+                ctrl.errors = [];
+            }
+        });
 
         ctrl.plugin = $scope.options.userPlugins.filter(function (item) {
             return item.name === PLUGIN_NAME;
@@ -56,6 +84,24 @@
 
         var config = ctrl.plugin.opts.config;
         var store  = Store.create(NS);
+
+        ctrl.exportRules = function () {
+
+            if (ctrl.exports.length) {
+                return ctrl.exports = [];
+            }
+
+            ctrl.exports = ctrl.rules
+                .filter(function (rule) {
+                    return rule.matchType === 'string' && rule.replaceType === 'string'
+                })
+                .map(function (rule) {
+                    return {
+                        match: rule.matchInput,
+                        replace: rule.replaceInput
+                    }
+                });
+        };
 
         ctrl.nextUpdate = [];
 
@@ -115,6 +161,7 @@
         ctrl.resetForm = function () {
             ctrl.buttonText = "Add new";
             ctrl.showErrors = false;
+            ctrl.errors     = [];
             ctrl.inputs.match.value   = "";
             ctrl.inputs.match.flags   = "";
             ctrl.inputs.replace.value = "";
@@ -158,6 +205,8 @@
                 ctrl.showErrors = true;
                 return;
             }
+
+            if (ctrl.errors.length) return;
 
             obj.match   = match;
             obj.replace = replace;

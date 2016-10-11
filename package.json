@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha tests"
+    "test": "mocha tests",
+    "start": "nodemon example --watch ui --extensions=js,html"
   },
   "keywords": [
     "browser sync plugin",
@@ -30,7 +31,8 @@
   "devDependencies": {
     "browser-sync": "^2.8.2",
     "chai": "^3.2.0",
-    "mocha": "^2.2.5"
+    "mocha": "^2.2.5",
+    "nodemon": "1.11.0"
   },
   "dependencies": {
     "immutable": "^3.7.4"

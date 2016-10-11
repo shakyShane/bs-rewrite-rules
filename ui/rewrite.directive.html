@@ -1,4 +1,10 @@
 <section>
+    <style>
+        .pre-code {
+            font-size: 12px;
+            line-height: 1.2;
+        }
+    </style>
     <div bs-panel-content>
         <p>
             <state-button state="ctrl.state.adding" on="Close" off="Add Rewrite Rule" ng-click="ctrl.showInputs()"></state-button>
@@ -26,6 +32,7 @@
                 </div>
                 <div bs-textarea-input>
                     <span bs-tag bs-error="offset" ng-show="ctrl.isMatchType('regex') && !rewriteForm['rewriteMatch'].$valid">Invalid <span>Regex</span></span>
+                    <span bs-tag bs-error="offset" ng-show="ctrl.errors.length">{{ctrl.errors[0].message}}</span>
                     <textarea
                             id="rewrite-match"
                             cols="30"
@@ -66,11 +73,13 @@
                 </div>
                 <div ng-class="[ctrl.state.classname]" bs-state-wrapper>
                     <div bs-button-group>
-                        <button id="save-rule" bs-button="size-small subtle-alt icon-left" ng-click="ctrl.saveRule()" ng-disabled="ctrl.state.waiting">
+                        <button id="save-rule" bs-button="size-small subtle-alt icon-left" ng-click="ctrl.saveRule()"
+                                ng-disabled="ctrl.state.waiting || rewriteForm.$invalid || ctrl.errors.length">
                             <svg bs-svg-icon><use xlink:href="#svg-circle-ok"></use></svg>
                             Save
                         </button>
-                        <button id="save-rule2" bs-button="size-small subtle-alt icon-left" ng-click="ctrl.saveRule('reload')" ng-disabled="ctrl.state.waiting">
+                        <button id="save-rule2" bs-button="size-small subtle-alt icon-left" ng-click="ctrl.saveRule('reload')"
+                                ng-disabled="ctrl.state.waiting || rewriteForm.$invalid || ctrl.errors.length">
                             <svg bs-svg-icon><use xlink:href="#svg-circle-ok"></use></svg>
                             Save & Reload
                         </button>
@@ -89,5 +98,14 @@
     <!-- -------------------------- -->
     <div bs-panel-content ng-show="ctrl.rules.length">
         <rewrite-rule ng-repeat="(key, rule) in ctrl.rules track by rule.id" rule="rule" index="$index" edit-rule="ctrl.editRule(rule)"></rewrite-rule>
+        <p style="margin-top: 20px">
+            <button bs-button="size-small subtle-alt" type="button" ng-click="ctrl.exportRules()">
+                {{ctrl.exports.length ? 'Close' : 'Export Rules' }}
+            </button>
+        </p>
+        <div ng-show="ctrl.exports.length">
+            <p>The following can be used in your Browsersync configuration</p>
+            <pre class="pre-code">rewriteRules: {{ctrl.exports|json}}</pre>
+        </div>
     </div>
 </section>

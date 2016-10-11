@@ -18,11 +18,10 @@
     <li bs-input="text">
         <span bs-tag>Match <span>{{ctrl.rule.matchType}}</span></span>
         <span bs-tag="offset" ng-show="ctrl.rule.matchFlags">Flags <span>{{ctrl.rule.matchFlags}}</span></span>
-
         <p bs-text="mono">{{ctrl.rule.matchInput}}</p>
     </li>
     <li>
         <span bs-tag>Replace<span>{{ctrl.rule.replaceType}}</span></span>
-        <p bs-text="mono">{{ctrl.rule.replaceInput}}</p>
+        <p bs-text="mono">{{ctrl.rule.replaceInput === '' ? 'EMPTY STRING' : ctrl.rule.replaceInput}}</p>
     </li>
 </ul>
