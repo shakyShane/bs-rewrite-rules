@@ -122,7 +122,7 @@ module.exports["plugin"] = function (opts, bs) {
                 });
 
                 // Don't allow duplicates
-                if (dupes.size) {
+                if (!matchedRule.size && dupes.size) {
                     return rules;
                 }
 

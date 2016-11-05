@@ -113,5 +113,41 @@ describe("Adding rewrite rules", function() {
             bs.cleanup(done);
         });
     });
+    it("can update existing rules", function (done) {
+
+        startWithRules([], function (err, bs) {
+
+            bs.ui.rewriteRules.addRule({
+                match: {
+                    type: "string",
+                    value: "shane"
+                },
+                replace: {
+                    type: "string",
+                    value: ""
+                }
+            });
+
+            var rules = bs.ui.options.getIn(OPTPATH).toJS();
+            const id = rules[0].id;
+            bs.ui.rewriteRules.addRule({
+                id: id,
+                match: {
+                    type: "string",
+                    value: "shane"
+                },
+                replace: {
+                    type: "string",
+                    value: "Some other string"
+                }
+            });
+            var rulesUpdated = bs.ui.options.getIn(OPTPATH).toJS();
+            console.log(rulesUpdated);
+
+            assert.equal(rulesUpdated[0].replaceInput, 'Some other string');
+
+            bs.cleanup(done);
+        });
+    });
 });
 
